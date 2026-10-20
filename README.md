@@ -66,3 +66,15 @@ After changing dependencies, regenerate the pip-compatible `requirements.txt`:
 ```bash
 uv export --format requirements-txt --no-hashes -o requirements.txt
 ```
+
+## Tests
+
+Run the unit test suite with:
+
+```bash
+uv run pytest
+```
+
+The tests cover the extracted models (`logistic_model`, `exponential_model`)
+and the `date_range` helper (see `tests/test_models.py`).
+
