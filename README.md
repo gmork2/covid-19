@@ -13,7 +13,7 @@ Read the Johns Hopkins CSSE data repository terms of use for more information.
 
 ## Requirements
 
-- Python 3.12 (pinned in `.python-version`)
+- Python 3.14 (pinned in `.python-version`)
 - [uv](https://docs.astral.sh/uv/) (recommended) or `pip` with a virtualenv
 
 ## Installation
