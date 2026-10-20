@@ -1,6 +1,6 @@
 """Core models and utilities for the Covid-19 growth analysis.
 
-These functions are extracted from ``pred.ipynb`` so they can be unit-tested
+These functions are extracted from ``covid19_model_comparison.ipynb`` so they can be unit-tested
 independently of the notebook.
 """
 from datetime import datetime, timedelta

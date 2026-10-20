@@ -1,4 +1,4 @@
-"""Unit tests for the ``covid`` module extracted from ``pred.ipynb``."""
+"""Unit tests for the ``covid`` module extracted from ``covid19_model_comparison.ipynb``."""
 from datetime import datetime
 
 import numpy as np

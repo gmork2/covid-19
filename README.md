@@ -37,16 +37,16 @@ pip install -r requirements.txt
 
 ## Usage
 
-Start Jupyter Notebook and open `pred.ipynb`:
+Start Jupyter Notebook and open `covid19_model_comparison.ipynb`:
 
 ```bash
-uv run jupyter notebook pred.ipynb
+uv run jupyter notebook covid19_model_comparison.ipynb
 ```
 
 Or, if you installed the environment with `pip`:
 
 ```bash
-jupyter notebook pred.ipynb
+jupyter notebook covid19_model_comparison.ipynb
 ```
 
 The notebook downloads the latest COVID-19 daily reports from the Johns Hopkins
