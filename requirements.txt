@@ -343,6 +343,7 @@ typing-extensions==4.16.0
     #   anyio
     #   beautifulsoup4
     #   jupyter-client
+    #   referencing
 tzdata==2026.5
     # via
     #   arrow
