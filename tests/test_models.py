@@ -1,25 +1,30 @@
 """Unit tests for the ``covid`` module extracted from ``covid19_model_comparison.ipynb``."""
+
 from datetime import datetime
 
 import numpy as np
+import pandas as pd
 import pytest
 from scipy.optimize import curve_fit
 
-from covid import date_range, exponential_model, logistic_model
+from covid import (
+    country_deaths,
+    date_range,
+    exponential_model,
+    logistic_end_day,
+    logistic_model,
+)
 
 
 def test_logistic_model_upper_asymptote_is_c():
-    # As x -> +inf the model saturates at c.
     assert logistic_model(1e6, a=2.0, b=100.0, c=20000.0) == pytest.approx(20000.0)
 
 
 def test_logistic_model_lower_asymptote_is_zero():
-    # As x -> -inf the model tends to 0.
     assert logistic_model(-1000.0, a=2.0, b=100.0, c=20000.0) == pytest.approx(0.0)
 
 
 def test_logistic_model_midpoint_is_half_of_c():
-    # At x == b the model equals c / 2.
     assert logistic_model(100.0, a=2.0, b=100.0, c=20000.0) == pytest.approx(10000.0)
 
 
@@ -32,7 +37,6 @@ def test_logistic_model_supports_numpy_arrays():
 
 
 def test_exponential_model_equals_a_at_c():
-    # At x == c the exponential model returns a.
     assert exponential_model(5.0, a=3.0, b=0.1, c=5.0) == pytest.approx(3.0)
 
 
@@ -44,9 +48,9 @@ def test_date_range_yields_consecutive_formatted_dates():
     d1 = datetime(2020, 1, 22)
     now = datetime(2020, 1, 25)
     assert list(date_range(d1, now=now)) == [
-        '01-22-2020',
-        '01-23-2020',
-        '01-24-2020',
+        "01-22-2020",
+        "01-23-2020",
+        "01-24-2020",
     ]
 
 
@@ -65,3 +69,51 @@ def test_curve_fit_recovers_logistic_parameters():
     assert a == pytest.approx(a_true, rel=0.1)
     assert b == pytest.approx(b_true, rel=0.01)
     assert c == pytest.approx(c_true, rel=0.01)
+
+
+def test_logistic_end_day_reaches_fraction_of_asymptote():
+    a, b, c = 2.0, 100.0, 20000.0
+    day = logistic_end_day(a, b, c, fraction=0.99)
+    assert logistic_model(day, a, b, c) == pytest.approx(0.99 * c)
+
+
+def test_logistic_end_day_is_after_inflection_point():
+    day = logistic_end_day(2.0, 100.0, 20000.0)
+    assert day > 100.0
+
+
+def test_logistic_end_day_rejects_invalid_fraction():
+    with pytest.raises(ValueError):
+        logistic_end_day(2.0, 100.0, 20000.0, fraction=0.0)
+    with pytest.raises(ValueError):
+        logistic_end_day(2.0, 100.0, 20000.0, fraction=1.0)
+
+
+def _make_time_series():
+    return pd.DataFrame(
+        {
+            "Province/State": ["ProvA", "ProvB", "Spain"],
+            "Country/Region": ["CountryX", "CountryX", "Spain"],
+            "Lat": [1.0, 2.0, 3.0],
+            "Long": [1.0, 2.0, 3.0],
+            "1/22/20": [0.0, 0.0, 0.0],
+            "1/23/20": [1.0, 1.0, 2.0],
+            "1/24/20": [2.0, 2.0, 4.0],
+        }
+    )
+
+
+def test_country_deaths_sums_across_provinces():
+    x, y = country_deaths(_make_time_series(), "CountryX")
+    assert list(x) == [21.0, 22.0, 23.0]
+    assert list(y) == [0.0, 2.0, 4.0]
+
+
+def test_country_deaths_selects_single_country_row():
+    x, y = country_deaths(_make_time_series(), "Spain")
+    assert list(y) == [0.0, 2.0, 4.0]
+
+
+def test_country_deaths_unknown_country_raises():
+    with pytest.raises(ValueError):
+        country_deaths(_make_time_series(), "Nowhere")

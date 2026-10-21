@@ -37,10 +37,10 @@ cffi==2.1.1
     #   pyzmq
 charset-normalizer==3.5.2
     # via requests
-cloudpickle==3.1.2
-    # via joblib
 colorama==0.4.6 ; sys_platform == 'win32'
-    # via ipython
+    # via
+    #   ipython
+    #   pytest
 comm==0.2.3
     # via
     #   ipykernel
@@ -73,6 +73,8 @@ idna==3.20
     #   httpx
     #   jsonschema
     #   requests
+iniconfig==2.3.1
+    # via pytest
 ipykernel==7.4.0
     # via
     #   covid-19
@@ -98,8 +100,6 @@ jinja2==3.1.6
     #   jupyterlab
     #   jupyterlab-server
     #   nbconvert
-joblib==1.6.0
-    # via scikit-learn
 json5==0.17.3
     # via jupyterlab-server
 jsonpointer==3.4
@@ -177,8 +177,6 @@ matplotlib-inline==0.2.2
     #   ipython
 mistune==3.4.0
     # via nbconvert
-narwhals==2.27.1
-    # via scikit-learn
 nbclient==0.11.0
     # via nbconvert
 nbconvert==7.17.2
@@ -204,7 +202,6 @@ numpy==2.5.4
     #   covid-19
     #   matplotlib
     #   pandas
-    #   scikit-learn
     #   scipy
 packaging==26.3
     # via
@@ -215,6 +212,7 @@ packaging==26.3
     #   jupyterlab-server
     #   matplotlib
     #   nbconvert
+    #   pytest
 pandas==3.0.6
     # via covid-19
 pandocfilters==1.5.1
@@ -227,6 +225,8 @@ pillow==13.0.0
     # via matplotlib
 platformdirs==4.13.5
     # via jupyter-core
+pluggy==1.7.0
+    # via pytest
 prometheus-client==0.26.0
     # via jupyter-server
 prompt-toolkit==3.0.53
@@ -249,8 +249,10 @@ pygments==2.21.0
     #   ipython-pygments-lexers
     #   jupyter-console
     #   nbconvert
+    #   pytest
 pyparsing==3.3.3
     # via matplotlib
+pytest==9.1.1
 python-dateutil==2.9.0.post0
     # via
     #   arrow
@@ -293,12 +295,9 @@ rpds-py==2026.9.1
     # via
     #   jsonschema
     #   referencing
-scikit-learn==1.9.1
-    # via covid-19
+ruff==0.17.1
 scipy==1.18.1
-    # via
-    #   covid-19
-    #   scikit-learn
+    # via covid-19
 send2trash==2.1.0
     # via jupyter-server
 six==1.17.0
@@ -313,8 +312,6 @@ terminado==0.18.1
     # via
     #   jupyter-server
     #   jupyter-server-terminals
-threadpoolctl==3.7.0
-    # via scikit-learn
 tinycss2==1.5.1
     # via bleach
 tornado==6.5.10

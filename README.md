@@ -9,7 +9,7 @@ available as open data on github:
 Read the Johns Hopkins CSSE data repository terms of use for more information.
 
 ![](plot.png)
-*Spain, 03-17-2020*
+*Spain — logistic vs exponential model comparison*
 
 ## Requirements
 
@@ -49,10 +49,11 @@ Or, if you installed the environment with `pip`:
 jupyter notebook covid19_model_comparison.ipynb
 ```
 
-The notebook downloads the latest COVID-19 daily reports from the Johns Hopkins
-CSSE repository, fits both a logistic and an exponential model to the number of
-deaths for the selected country (default: `Spain`) and plots the comparison,
-together with the mean squared error (residuals) of each model.
+The notebook downloads the Johns Hopkins CSSE *time series* of COVID-19 deaths
+(a single, schema-stable CSV), fits a logistic model to the full series and an
+exponential model to the early outbreak phase for the selected country (default:
+`Spain`), and plots the comparison together with the mean squared error
+(residuals) of each model.
 
 ## Managing dependencies
 
@@ -67,7 +68,7 @@ After changing dependencies, regenerate the pip-compatible `requirements.txt`:
 uv export --format requirements-txt --no-hashes -o requirements.txt
 ```
 
-## Tests
+## Tests and linting
 
 Run the unit test suite with:
 
@@ -75,6 +76,14 @@ Run the unit test suite with:
 uv run pytest
 ```
 
-The tests cover the extracted models (`logistic_model`, `exponential_model`)
-and the `date_range` helper (see `tests/test_models.py`).
+The tests cover the extracted models (`logistic_model`, `exponential_model`),
+the `date_range` helper, the `country_deaths` data loader and the
+`logistic_end_day` helper (see `tests/test_models.py`).
+
+Run the linter and the formatter with:
+
+```bash
+uv run ruff check .
+uv run ruff format --check .
+```
 
